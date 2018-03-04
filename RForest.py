@@ -5,7 +5,7 @@ import pandas as pd
 
 def Random_Forest(r):
 	dataset = pd.read_csv('Social_Network_Ads.csv')
-	X = dataset.iloc[:, [2, 3]].values
+	X = dataset.iloc[:, r].values
 	y = dataset.iloc[:, 4].values
 
 
