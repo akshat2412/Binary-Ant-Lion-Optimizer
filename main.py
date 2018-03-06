@@ -19,16 +19,18 @@ def bALO(N, Max_Iterations):
 
 	# print (ant_position[0])
 	# print (ant_position[0])
-	a=list()
 	# print(numpy.size(X, 1))
 	# print(numpy.size(y))
-	count=0
-	for i in range(0, 60):
+	for i in range(0, N):
+		a=list()	
+		for j in range(0, 60):
 		# print(ant_position[0][i])
-		if(ant_position[0][i]==1):
-			a.append(i)
-			count=count+1
+			if(ant_position[i][j]==1):
+				a.append(j)
 	# print(a)
-	print(RForest.Random_Forest(a, X, y)," for number of features = ",count)
+	# print(len(a))
+		# if len(a)==0:
+		print(RForest.Random_Forest(a, X, y)," for number of features = ",len(a))
+		# 	continue
 	# print(a)
-bALO(40, 100)
+bALO(50, 100)
