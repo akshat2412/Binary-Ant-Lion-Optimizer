@@ -3,7 +3,7 @@ import numpy as np
 # import matplotlib.pyplot as plt
 import pandas as pd
 
-def Random_Forest(r,X,y):
+def Random_Forest(r,X,y,flag=0):
 	# print(X)
 	X = X[:,r]
 	# print(X)
@@ -30,4 +30,12 @@ def Random_Forest(r,X,y):
 	cm = confusion_matrix(y_test, y_pred)
 
 	from sklearn.metrics import accuracy_score
-	return accuracy_score(y_test,y_pred)
+	acc=accuracy_score(y_test,y_pred)
+	if(flag):
+		return acc
+	alpha=0.01
+	beta=1-alpha
+	fitness=alpha*(1.0-acc)+beta*(len(r)/60)
+	# print(acc)
+	# print(str(fitness)+"\n")
+	return fitness

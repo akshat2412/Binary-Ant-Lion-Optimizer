@@ -1,21 +1,13 @@
 import numpy
-import Mutation
 import math
 
 
 
 def transfer(ip_value):
-	return 1/(1+math.exp(-10*ip_value))
-
-
-
-# def stochasticMutation(ip_value, curr_iteration, max_iterations):
-# 	mutation_rate=Mutation.rate(curr_iteration, max_iterations)
-	
-# 	if(numpy.random.uniform(0.0, 1.0)>=mutation_rate):
-# 		return ip_value
-# 	return numpy.random.uniform(0.0, 1.0)
-
+		try:
+			return 1/(1+math.exp(-10*ip_value))
+		except:
+			return 0
 
 def stochasticThreshold(ip_value):
 	if(ip_value>=numpy.random.uniform(0.0, 1.0)):
@@ -24,16 +16,37 @@ def stochasticThreshold(ip_value):
 
 
 def randomWalk(dimensions, curr_iteration, max_iterations, antlion):
+	# print(antlion)
 	lb=numpy.ones((1, dimensions))
 	ub=numpy.ones((1, dimensions))
 	
 	I=0.0
-	if curr_iteration<(max_iterations*0.1):
-		I=1
-	else:
-	    I=(1.0-max_iterations)/(curr_iteration-max_iterations)
+	# if curr_iteration<(max_iterations*0.1):
+	# 	I=1
+	# else:
+	#     I=(1.0-max_iterations)/(curr_iteration-max_iterations)
 	
-	# print(I)
+	# print(curr_iteration/max_iterations)
+
+	if curr_iteration>max_iterations/10:
+	    I=1.0+100*(float(curr_iteration)/float(max_iterations))
+
+	if curr_iteration>max_iterations/2:
+	    I=1.0+1000*(float(curr_iteration)/float(max_iterations))
+	
+
+	if curr_iteration>max_iterations*(3/4):
+	    I=1.0+10000*(float(curr_iteration)/float(max_iterations))
+	
+
+	if curr_iteration>max_iterations*(0.9):
+	    I=1.0+100000*(float(curr_iteration)/float(max_iterations))
+	
+
+	if curr_iteration>max_iterations*(0.95):
+	    I=1.0+1000000*(float(curr_iteration)/float(max_iterations))
+	
+	# print (I)
 
 	lb=lb/I
 	ub=ub/I
@@ -77,8 +90,8 @@ def randomWalk(dimensions, curr_iteration, max_iterations, antlion):
 		threshold=numpy.vectorize(stochasticThreshold)
 		RWs=threshold(RWs)
 
-	print(RWs)
+	# print(RWs)
 	return RWs
 
 
-# randomWalk(10, 9, 10, numpy.random.randint(2, size=10))
+# randomWalk(10, 798, 1000, numpy.random.randint(2, size=10))
