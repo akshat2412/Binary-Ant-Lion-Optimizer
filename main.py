@@ -6,7 +6,7 @@ import Generate_Dataset
 import RWS
 from CrossOver import crossover 
 def bALO(N, Max_Iterations):
-	(X, y)=Generate_Dataset.GenerateData()
+	(X, y)=Generate_Dataset.GenerateData1()
 	# print(numpy.size(X, 0))
 	Dim=numpy.size(X, 1)
 
@@ -25,7 +25,7 @@ def bALO(N, Max_Iterations):
 	# print(numpy.size(y))
 	for i in range(0, N):
 		a=list()	
-		for j in range(0, 60):
+		for j in range(0, 44):
 		# print(ant_position[0][i])
 			if(antlion_position[i][j]==1):
 				a.append(j)
