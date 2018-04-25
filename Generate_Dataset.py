@@ -18,4 +18,4 @@ def GenerateData1():
 	return X,y	
 	
 
-GenerateData1()
+# GenerateData1()
