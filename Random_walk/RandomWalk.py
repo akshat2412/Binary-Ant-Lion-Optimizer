@@ -19,7 +19,7 @@ def randomWalk(dimensions, curr_iteration, max_iterations, antlion):
 	# print(antlion)
 	lb=numpy.ones((1, dimensions))
 	ub=numpy.ones((1, dimensions))
-	
+	# print(lb)
 	I=0.0
 	# if curr_iteration<(max_iterations*0.1):
 	# 	I=1
@@ -58,17 +58,16 @@ def randomWalk(dimensions, curr_iteration, max_iterations, antlion):
 		lb=-lb+antlion
 
 	if(numpy.random.uniform(0.0, 1.0)>=0.5):
-		lb=ub+antlion 
+		ub=ub+antlion 
 	else:
-		lb=-ub+antlion
+		ub=-ub+antlion
 	# print(antlion)
 	# print(lb)
 	RWs=numpy.empty([max_iterations, dimensions])
 	# print(numpy.shape(RWs))
 	for i in range(0, dimensions):
 		X = numpy.array([numpy.cumsum(2*(numpy.random.uniform(0.0,1.0,(max_iterations,1))>0.5)-1)])
-		X=X.astype(float)
-		
+		# X=X.astype(float)
 		a=(numpy.amin(X))
 	# print(a)
 		b=(numpy.amax(X))

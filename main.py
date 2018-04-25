@@ -1,15 +1,16 @@
 from Initialize.Positions import initializePositions
 from Random_walk.RandomWalk import randomWalk
 import numpy
-import RForest
+import RForest_new
 import Generate_Dataset
 import RWS
 from CrossOver import crossover 
+
 def bALO(N, Max_Iterations):
 	(X, y)=Generate_Dataset.GenerateData1()
 	# print(numpy.size(X, 0))
 	Dim=numpy.size(X, 1)
-
+	print(Dim)
 	ant_position=initializePositions(N, Dim)
 	antlion_position=initializePositions(N, Dim)
 
@@ -25,7 +26,7 @@ def bALO(N, Max_Iterations):
 	# print(numpy.size(y))
 	for i in range(0, N):
 		a=list()	
-		for j in range(0, 44):
+		for j in range(0, Dim):
 		# print(ant_position[0][i])
 			if(antlion_position[i][j]==1):
 				a.append(j)
@@ -33,7 +34,7 @@ def bALO(N, Max_Iterations):
 	# print(len(a))
 		if len(a)==0:
 			continue
-		antlions_fitness[0, i]=(RForest.Random_Forest(a, X, y))
+		antlions_fitness[0, i]=(RForest_new.Random_Forest(a, X, y, Dim))
 
 	# print(antlions_fitness)
 	I = numpy.argsort(antlions_fitness)
@@ -64,22 +65,26 @@ def bALO(N, Max_Iterations):
 			if RouletteIndex==-1:
 				RouletteIndex=0
 
-			RA=randomWalk(60, curr_iteration, Max_Iterations, antlion_position[RouletteIndex])
-			RE=randomWalk(60, curr_iteration, Max_Iterations, Elite_antlion_position)
+			RA=randomWalk(Dim, curr_iteration, Max_Iterations, antlion_position[RouletteIndex])
+			RE=randomWalk(Dim, curr_iteration, Max_Iterations, Elite_antlion_position)
 			# print(numpy.shape(RA))
-			ant_position[i]=crossover(curr_iteration,60, RA, RE)
+			ant_position[i]=crossover(curr_iteration,Dim, RA, RE)
+			# print(ant_position[i])
+			# print(Elite_antlion_position)
+			# print(antlion_position[RouletteIndex])
+			# print("\n\n")
 		# print(co)
 		# ant_position=co
 		# print(ant_position)
 		for i in range(0, N):
 			a=list()	
-			for j in range(0, 60):
+			for j in range(0, Dim):
 				if(ant_position[i][j]==1):
 					a.append(j)
 
 			if len(a)==0:
 				continue
-			ants_fitness[0, i]=(RForest.Random_Forest(a, X, y))
+			ants_fitness[0, i]=(RForest_new.Random_Forest(a, X, y, Dim))
 
 		# print("*****************************************************")
 		double_population=numpy.append(Sorted_antlions, ant_position, axis=0)
@@ -94,13 +99,13 @@ def bALO(N, Max_Iterations):
 
 		double_sorted_population=double_population[I]
 		# numpy.sort(antlions_fitness)
-		# print(double_sorted_population)
+		print(double_fitness_sorted)
 		# print("total fitnedouble_sorted_puss sorted")
 		print(curr_iteration)
 		# print(double_fitness_sorted)
 		antlions_fitness=double_fitness_sorted[0:N]
 		Sorted_antlions=double_sorted_population[0:N]
-		print(Elite_antlion_fitness)
+		print(Elite_antlion_fitness, "Elite Antlion Fitness")
 		# print(antlions_fitness[0])
 		# print(Elite_antlion_position)
 		if(antlions_fitness[0]<Elite_antlion_fitness):
@@ -108,8 +113,8 @@ def bALO(N, Max_Iterations):
 			Elite_antlion_position=Sorted_antlions[0]
 		# print(Elite_antlion_position)
 
-		print(antlions_fitness[0])
-		print(Elite_antlion_fitness)
+		print(antlions_fitness[0], "Current Elite Antlion Fitness")
+		print(Elite_antlion_fitness, " Updated Elite Antlion Fitness")
 		print(Elite_antlion_position)
 		print("\n")
 
@@ -123,12 +128,14 @@ def bALO(N, Max_Iterations):
 		# index=RWS.rouletteWheelSelection(1/sorted_antlion_fitness)
 	a=list()
 	b=list()	
-	for j in range(0, 60):
+	for j in range(0, Dim):
 		if(Elite_antlion_position[j]==1):
 			a.append(j)
 		b.append(j)
 	if len(a)==0:
 		pass
-	print("classification accuracy = ",RForest.Random_Forest(a, X, y, 1)*100, "for number of features = ", len(a))
-	print("classification accuracy = ",RForest.Random_Forest(b, X, y, 1)*100, "for number of features = ", len(b))
-bALO(20, 40)
+	print("classification accuracy = ",RForest_new.Random_Forest(a, X, y,Dim, 1)*100, "for number of features = ", len(a))
+	print("classification accuracy = ",RForest_new.Random_Forest(b, X, y,Dim, 1)*100, "for number of features = ", len(b))
+
+
+bALO(20, 25)

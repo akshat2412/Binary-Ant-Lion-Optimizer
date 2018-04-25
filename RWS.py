@@ -10,7 +10,7 @@ def rouletteWheelSelection(Weights):
 	for index in range(0, len(accumulation)):
 	    if (accumulation[index] > p):
 	    	chosen_index = index
-	      	# break
+	      	break
 	# print(chosen_index)
 	return chosen_index
 # rouletteWheelSelection()
