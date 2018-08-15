@@ -7,10 +7,12 @@ import RWS
 from CrossOver import crossover 
 
 def bALO(N, Max_Iterations):
+	print("Number of Antlions : " + str(N))
+	print("Number of Iterations : " + str(Max_Iterations))
+
 	(X, y)=Generate_Dataset.GenerateData1()
-	# print(numpy.size(X, 0))
 	Dim=numpy.size(X, 1)
-	print(Dim)
+	# print(Dim)
 	ant_position=initializePositions(N, Dim)
 	antlion_position=initializePositions(N, Dim)
 
@@ -60,6 +62,8 @@ def bALO(N, Max_Iterations):
 	# crossover(N, RA, RE)
 
 	while curr_iteration<=Max_Iterations:
+		print("-------------------------------------------------------")
+		print("\nIteration Number : " + str(curr_iteration))
 		for i in range(0, N):
 			RouletteIndex=RWS.rouletteWheelSelection(1/sorted_antlion_fitness)
 			if RouletteIndex==-1:
@@ -93,19 +97,22 @@ def bALO(N, Max_Iterations):
 		# print(double_population)
 		# print(numpy.shape(double_population))
 		double_fitness=numpy.append(sorted_antlion_fitness, ants_fitness)
+		# print(sorted_antlion_fitness)
+		# print(ants_fitness)
 		# print(double_fitness)
 		double_fitness_sorted=numpy.sort(double_fitness)
 		I = numpy.argsort(double_fitness)
 
 		double_sorted_population=double_population[I]
 		# numpy.sort(antlions_fitness)
-		print(double_fitness_sorted)
-		# print("total fitnedouble_sorted_puss sorted")
-		print(curr_iteration)
 		# print(double_fitness_sorted)
+		# print("total fitnedouble_sorted_puss sorted")
+		print("\nFitnesses of Antlions in current Iteration\n")
+		print(double_fitness_sorted)
+		print("")
 		antlions_fitness=double_fitness_sorted[0:N]
 		Sorted_antlions=double_sorted_population[0:N]
-		print(Elite_antlion_fitness, "Elite Antlion Fitness")
+		print("\nElite Antlion Fitness   :   " + str(Elite_antlion_fitness))
 		# print(antlions_fitness[0])
 		# print(Elite_antlion_position)
 		if(antlions_fitness[0]<Elite_antlion_fitness):
@@ -113,8 +120,9 @@ def bALO(N, Max_Iterations):
 			Elite_antlion_position=Sorted_antlions[0]
 		# print(Elite_antlion_position)
 
-		print(antlions_fitness[0], "Current Elite Antlion Fitness")
-		print(Elite_antlion_fitness, " Updated Elite Antlion Fitness")
+		print("\nCurrent Elite Antlion Fitness   :   " + str(antlions_fitness[0]))
+		print("\nUpdated Elite Antlion Fitness   :   " + str(Elite_antlion_fitness))
+		print("\nCurrent Selected Features \n")
 		print(Elite_antlion_position)
 		print("\n")
 
@@ -134,8 +142,17 @@ def bALO(N, Max_Iterations):
 		b.append(j)
 	if len(a)==0:
 		pass
+	
+	import time
+
+	start = time.time()
 	print("classification accuracy = ",RForest_new.Random_Forest(a, X, y,Dim, 1)*100, "for number of features = ", len(a))
+	end = time.time()
+	print("Calculated in " + str(end-start) + " seconds\n")
+	start = time.time()
 	print("classification accuracy = ",RForest_new.Random_Forest(b, X, y,Dim, 1)*100, "for number of features = ", len(b))
+	end = time.time()
+	print("Calculated in " + str(end-start) + " seconds")
 
 
-bALO(20, 25)
+bALO(25, 25)
